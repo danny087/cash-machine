@@ -16,16 +16,17 @@ public class CashRegister
         static byte fivePound = 5;
         static byte tenPound = 10;
         static byte twentyPound = 20;
-        public List<byte> TotalOrderAmount(decimal total, decimal customerPayment, Customer customer)
+        public dynamic TotalOrderAmount(decimal total, decimal customerPayment, Customer customer)
         {
             if (total > customerPayment)
             {
-                throw new Exception("you need to pay more!");
+                Console.Error.Write("you need to pay more!");
+                return "rerun";
             }
             else
             {
                 decimal payBack = customerPayment - total;
-                customer.Money -= payBack;
+                customer.Money -= total;
                 List<byte> change = this.Change(payBack);
                 return change;
 
