@@ -3,11 +3,11 @@ using System;
 namespace currencyAppTwo.Classes {
     public class Basket
     {
-        public double Total { get; set; }
+        public decimal Total { get; set; }
 
         public void addToBasket(string item)
         {
-            var convertToDouble = Convert.ToDouble(item);
+            var convertToDouble = Convert.ToDecimal(item);
             this.Total += convertToDouble;
             this.Total = Math.Round(this.Total, 2);
         }

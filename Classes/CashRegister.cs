@@ -5,18 +5,18 @@ namespace currencyAppTwo.Classes {
 public class CashRegister
     {
 
-        static double onePence = 0.01;
-        static double twoPence = 0.02;
-        static double fivePence = 0.05;
-        static double tenPence = 0.10;
-        static double twentyPence = 0.20;
-        static double fivtyPence = 0.50;
-        static double onePound = 1;
-        static double twoPound = 2;
-        static double fivePound = 5;
-        static double tenPound = 10;
-        static double twentyPound = 20;
-        public List<double> TotalOrderAmount(double total, double customerPayment, Customer customer)
+        static decimal onePence = 0.01m;
+        static decimal twoPence = 0.02m;
+        static decimal fivePence = 0.05m;
+        static decimal tenPence = 0.10m;
+        static decimal twentyPence = 0.20m;
+        static decimal fivtyPence = 0.50m;
+        static byte onePound = 1;
+        static byte twoPound = 2;
+        static byte fivePound = 5;
+        static byte tenPound = 10;
+        static byte twentyPound = 20;
+        public List<byte> TotalOrderAmount(decimal total, decimal customerPayment, Customer customer)
         {
             if (total > customerPayment)
             {
@@ -24,9 +24,9 @@ public class CashRegister
             }
             else
             {
-                var payBack = customerPayment - total;
+                decimal payBack = customerPayment - total;
                 customer.Money -= payBack;
-                List<double> change = this.Change(payBack);
+                List<byte> change = this.Change(payBack);
                 return change;
 
             }
@@ -34,11 +34,11 @@ public class CashRegister
 
         }
 
-        private List<double> Change(double payBack)
+        private List<byte> Change(decimal payBack)
         {
 
             
-            var changeCount = new List<double>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            var changeCount = new List<byte>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             while (true)
             {
                 while (payBack >= CashRegister.twentyPound) { changeCount[10] += 1; payBack -= CashRegister.twentyPound; }

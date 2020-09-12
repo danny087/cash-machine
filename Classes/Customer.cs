@@ -1,6 +1,6 @@
 namespace currencyAppTwo.Classes {
     public class Customer
     {
-        public double Money { get; set; } = 20.00;
+        public decimal Money { get; set; } = 20.00m;
     }
 }

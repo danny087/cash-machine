@@ -114,7 +114,7 @@ namespace currencyAppTwo
             }
         }
 
-        static List<double> CustomerPayMenu(Basket basket, Customer customer)
+        static List<byte> CustomerPayMenu(Basket basket, Customer customer)
         {
             List<string> consoleMenu = new List<string>() { "1", "2", "5", "10", "20" };
             Console.CursorVisible = false;
@@ -165,10 +165,10 @@ namespace currencyAppTwo
                 }
                 else if (ckey.Key == ConsoleKey.Enter)
                 {
-                    var customerPayment = Convert.ToDouble(consoleMenu[index]);
+                    var customerPayment = Convert.ToDecimal(consoleMenu[index]);
                     Console.WriteLine(customerPayment);
                     var till = new CashRegister();
-                    List<double> changeAmount = till.TotalOrderAmount(basket.Total, customerPayment, customer);
+                    List<byte> changeAmount = till.TotalOrderAmount(basket.Total, customerPayment, customer);
                     //Console.Clear();
                     return changeAmount;
 
@@ -176,7 +176,7 @@ namespace currencyAppTwo
             }
         }
 
-        static void payAgainMenu(List<double> changeAmount)
+        static void payAgainMenu(List<byte> changeAmount)
         {
             Console.Clear();
             var list = new List<string>() { "1p:", "2p:", "5p:", "10p:", "20p:", "50p:", "£1:", "£2:", "£5:", "£10:", "£20:" };
