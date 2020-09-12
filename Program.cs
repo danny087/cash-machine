@@ -7,21 +7,21 @@ namespace currencyAppTwo
     {
         static void Main(string[] args)
         {
-            string value = "";
-            if(value != "pay") {
-            value = Program.addBasketMenu();
-            if(value == "pay") {
-                Program.CustomerPayMenu();
-            }
-            }   
-            else if(value == "pay") {
-                Program.CustomerPayMenu();
-            }
+            // string value = "";
+            // if(value != "pay") {
+            Program.addBasketMenu();
+            // if(value == "pay") {
+            //     Program.CustomerPayMenu();
+            // }
+            // }   
+            // else if(value == "pay") {
+            //     Program.CustomerPayMenu();
+            // }
 
 
         }
 
-        static string addBasketMenu()
+        static void addBasketMenu()
         {
             Basket basket = new Basket();
             List<string> consoleMenu = new List<string>() { "Cheese", "Milk", "Newspaper", "Bread", "Pay" };
@@ -98,7 +98,8 @@ namespace currencyAppTwo
                     {
                         //var till = new CashRegister();
                         //till.TotalOrderAmount(basket.Total);
-                        return "pay";
+                        Program.CustomerPayMenu(basket);
+                        //return "pay";
                     }
                     
                 }
@@ -106,7 +107,7 @@ namespace currencyAppTwo
             }
         }
 
-        static string CustomerPayMenu() {
+        static string CustomerPayMenu(Basket basket) {
             List<string> consoleMenu = new List<string>() { "1", "2", "5", "10", "20" };
             Console.CursorVisible = false;
             var index = 0;
@@ -154,6 +155,13 @@ namespace currencyAppTwo
 
 
                 }
+                else if (ckey.Key == ConsoleKey.Enter)
+                {
+                    var customerPayment = Convert.ToDouble(consoleMenu[index]);
+                    Console.WriteLine(customerPayment);
+                    var till = new CashRegister();
+                    till.TotalOrderAmount(basket.Total,customerPayment);
+                }
             }
         }
     }
@@ -190,16 +198,16 @@ namespace currencyAppTwo
         static byte fivePounds = 5;
         static byte tenPounds = 10;
         static byte twentyPounds = 20;
-        public double TotalOrderAmount(double total)
+        public double TotalOrderAmount(double total,double customerPayment)
         {
-            if (total < 1.00)
-            {
-                this.Change(total, 1.00);
+            if(total > customerPayment) {
+                throw new Exception("you need to pay more!");
+            } else{
+                    this.Change(total, customerPayment);
             }
-            if (total < 2.00)
-            {
-                this.Change(total, 2.00);
-            }
+                
+            
+
             return 0;
         }
 
