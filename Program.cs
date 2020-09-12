@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using currencyAppTwo.Classes;
 
 namespace currencyAppTwo
@@ -12,7 +13,10 @@ namespace currencyAppTwo
             // if(value != "pay") {
             var customer = new Customer();
 
-            Program.addBasketMenu(customer);
+            var result = Program.addBasketMenu(customer);
+            if(result == "yes") {
+                Program.addBasketMenu(customer);
+            }
             // if(value == "pay") {
             //     Program.CustomerPayMenu();
             // }
@@ -24,7 +28,7 @@ namespace currencyAppTwo
 
         }
 
-        static void addBasketMenu(Customer customer)
+        static string addBasketMenu(Customer customer)
         {
             Basket basket = new Basket();
             List<string> consoleMenu = new List<string>() { "Cheese", "Milk", "Newspaper", "Bread", "Pay" };
@@ -105,7 +109,13 @@ namespace currencyAppTwo
                         //till.TotalOrderAmount(basket.Total);
                         var changeAmount = Program.CustomerPayMenu(basket, customer);
                         basket.Total = 0;
-                        Program.payAgainMenu(changeAmount);
+                        var result = Program.payAgainMenu(changeAmount);
+                        if(result == "no") {
+                            return "no";
+                        }
+                        else{
+                            return "yes";
+                        }
                         //return "pay";
                     }
 
@@ -176,25 +186,80 @@ namespace currencyAppTwo
             }
         }
 
-        static void payAgainMenu(List<byte> changeAmount)
+        static string payAgainMenu(List<byte> changeAmount)
         {
-            Console.Clear();
+            List<string> consoleMenu = new List<string>() { "yes", "no" };
             var list = new List<string>() { "1p:", "2p:", "5p:", "10p:", "20p:", "50p:", "£1:", "£2:", "£5:", "£10:", "£20:" };
-            //Console.WriteLine(list.Count);
-            //Console.WriteLine(changeAmount.Count);
             for (int i = 0; i < changeAmount.Count; i++)
             {
                 
               list[i] = list[i] + changeAmount[i].ToString();
             }
-            list.ForEach(Console.WriteLine);
+            var displaychange = list.Where(x => !x.EndsWith('0')).ToList();
+            Console.CursorVisible = false;
+            var index = 0;
+            while (true)
+            {
+                for (int i = 0; i < consoleMenu.Count; i++)
+                {
+                    if (i == index)
+                    {
+                        Console.BackgroundColor = ConsoleColor.Gray;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.WriteLine($"{consoleMenu[i]}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{consoleMenu[i]}");
+                    }
+                    Console.ResetColor();
+                }
+                displaychange.ForEach(Console.WriteLine);
+                 ConsoleKeyInfo ckey = Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine("Would you like to shop again?");
+            
+            if (ckey.Key == ConsoleKey.DownArrow)
+                {
+                    if (index == consoleMenu.Count - 1)
+                    {
+                        index = 0;
+                    }
+                    else
+                    {
+                        index++;
+                    }
+                }
+                else if (ckey.Key == ConsoleKey.UpArrow)
+                {
+                    if (index <= 0)
+                    {
+                        index = consoleMenu.Count - 1;
+                    }
+                    else
+                    {
+                        index--;
+                    }
+
+
+                }
+                 else if (ckey.Key == ConsoleKey.Enter)
+                {
+                    
+                   if(consoleMenu[index] == "no") {
+                       return "no";
+                   }
+                   else {
+                       return "yes";
+                   }
+
+                }
+
+            }
+           
 
         }
 
-
     }
-
-
-
 
 }
