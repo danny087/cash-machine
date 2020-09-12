@@ -1,0 +1,12 @@
+/Users/danielflaskett/currencyAppTwo/bin/Debug/netcoreapp3.1/currencyAppTwo.deps.json
+/Users/danielflaskett/currencyAppTwo/bin/Debug/netcoreapp3.1/currencyAppTwo.runtimeconfig.json
+/Users/danielflaskett/currencyAppTwo/bin/Debug/netcoreapp3.1/currencyAppTwo.runtimeconfig.dev.json
+/Users/danielflaskett/currencyAppTwo/bin/Debug/netcoreapp3.1/currencyAppTwo.dll
+/Users/danielflaskett/currencyAppTwo/bin/Debug/netcoreapp3.1/currencyAppTwo.pdb
+/Users/danielflaskett/currencyAppTwo/obj/Debug/netcoreapp3.1/currencyAppTwo.csprojAssemblyReference.cache
+/Users/danielflaskett/currencyAppTwo/obj/Debug/netcoreapp3.1/currencyAppTwo.AssemblyInfoInputs.cache
+/Users/danielflaskett/currencyAppTwo/obj/Debug/netcoreapp3.1/currencyAppTwo.AssemblyInfo.cs
+/Users/danielflaskett/currencyAppTwo/obj/Debug/netcoreapp3.1/currencyAppTwo.csproj.CoreCompileInputs.cache
+/Users/danielflaskett/currencyAppTwo/obj/Debug/netcoreapp3.1/currencyAppTwo.dll
+/Users/danielflaskett/currencyAppTwo/obj/Debug/netcoreapp3.1/currencyAppTwo.pdb
+/Users/danielflaskett/currencyAppTwo/obj/Debug/netcoreapp3.1/currencyAppTwo.genruntimeconfig.cache
