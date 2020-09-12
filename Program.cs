@@ -9,7 +9,9 @@ namespace currencyAppTwo
         {
             // string value = "";
             // if(value != "pay") {
-            Program.addBasketMenu();
+              var customer =  new Customer();
+              
+            Program.addBasketMenu(customer);
             // if(value == "pay") {
             //     Program.CustomerPayMenu();
             // }
@@ -21,11 +23,11 @@ namespace currencyAppTwo
 
         }
 
-        static void addBasketMenu()
+        static void addBasketMenu(Customer customer)
         {
             Basket basket = new Basket();
             List<string> consoleMenu = new List<string>() { "Cheese", "Milk", "Newspaper", "Bread", "Pay" };
-            Console.WriteLine("Hello World!");
+            
             Console.CursorVisible = false;
             var index = 0;
             while (true)
@@ -48,6 +50,7 @@ namespace currencyAppTwo
                 ConsoleKeyInfo ckey = Console.ReadKey();
 
                 Console.Clear();
+                Console.WriteLine($"You curenlty have £{customer.Money}");
                 Console.WriteLine("Welcome to my store what would you like to buy?");
                 if (ckey.Key == ConsoleKey.DownArrow)
                 {
@@ -98,16 +101,17 @@ namespace currencyAppTwo
                     {
                         //var till = new CashRegister();
                         //till.TotalOrderAmount(basket.Total);
-                        Program.CustomerPayMenu(basket);
+                        Program.CustomerPayMenu(basket,customer);
                         //return "pay";
                     }
-                    
+
                 }
                 Console.WriteLine($"Your basket total {basket.Total}");
             }
         }
 
-        static string CustomerPayMenu(Basket basket) {
+        static string CustomerPayMenu(Basket basket,Customer customer) 
+        {
             List<string> consoleMenu = new List<string>() { "1", "2", "5", "10", "20" };
             Console.CursorVisible = false;
             var index = 0;
@@ -115,7 +119,7 @@ namespace currencyAppTwo
             {
                 for (int i = 0; i < consoleMenu.Count; i++)
                 {
-                     if (i == index)
+                    if (i == index)
                     {
                         Console.BackgroundColor = ConsoleColor.Gray;
                         Console.ForegroundColor = ConsoleColor.Black;
@@ -142,7 +146,7 @@ namespace currencyAppTwo
                         index++;
                     }
                 }
-                 else if (ckey.Key == ConsoleKey.UpArrow)
+                else if (ckey.Key == ConsoleKey.UpArrow)
                 {
                     if (index <= 0)
                     {
@@ -160,7 +164,7 @@ namespace currencyAppTwo
                     var customerPayment = Convert.ToDouble(consoleMenu[index]);
                     Console.WriteLine(customerPayment);
                     var till = new CashRegister();
-                    till.TotalOrderAmount(basket.Total,customerPayment);
+                    till.TotalOrderAmount(basket.Total, customerPayment,customer);
                 }
             }
         }
@@ -181,7 +185,7 @@ namespace currencyAppTwo
 
     public class Customer
     {
-        public double Money { get; } = 20.00;
+        public double Money { get; set; } = 20.00;
     }
 
     public class CashRegister
@@ -194,29 +198,54 @@ namespace currencyAppTwo
         static double twentyPence = 0.20;
         static double fivtyPence = 0.50;
         static byte onePound = 1;
-        static byte twoPounds = 2;
-        static byte fivePounds = 5;
-        static byte tenPounds = 10;
-        static byte twentyPounds = 20;
-        public double TotalOrderAmount(double total,double customerPayment)
+        static byte twoPound = 2;
+        static byte fivePound = 5;
+        static byte tenPound = 10;
+        static byte twentyPound = 20;
+        public void TotalOrderAmount(double total, double customerPayment,Customer customer)
         {
-            if(total > customerPayment) {
+            if (total > customerPayment)
+            {
                 throw new Exception("you need to pay more!");
-            } else{
-                    this.Change(total, customerPayment);
             }
+            else
+            {
+                customer.Money -= customerPayment;
+                List<double> change = this.Change(total, customerPayment);
                 
-            
+            }
 
-            return 0;
+            
         }
 
-        private double Change(double total, double amountPaid)
+        private List<double> Change(double total, double amountPaid)
         {
-            var payBack = amountPaid - total;
-            Console.WriteLine(payBack);
 
-            return 0;
+            var payBack = amountPaid - total;
+            var changeCount = new List<double>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            while (true)
+            {
+                while (payBack >= CashRegister.twentyPound) { changeCount[10] += 1; payBack -= CashRegister.twentyPound; }
+                while (payBack >= CashRegister.tenPound) { changeCount[9] += 1; payBack -= CashRegister.tenPound; }
+                while (payBack >= CashRegister.fivePound) { changeCount[8] += 1; payBack -= CashRegister.fivePound; }
+                while (payBack >= CashRegister.twoPound) { changeCount[7] += 1; payBack -= CashRegister.twoPound; }
+                while (payBack >= CashRegister.onePound) { changeCount[6] += 1; payBack -= CashRegister.onePound; }
+                while (payBack >= CashRegister.fivtyPence) { changeCount[5] += 1; payBack -= CashRegister.fivtyPence; }
+                while (payBack >= CashRegister.twentyPence) { changeCount[4] += 1; payBack -= CashRegister.twentyPence; }
+                while (payBack >= CashRegister.tenPence) { changeCount[3] += 1; payBack -= CashRegister.tenPence; }
+                while (payBack >= CashRegister.fivePence) { changeCount[2] += 1; payBack -= CashRegister.fivePence; }
+                while (payBack >= CashRegister.twoPence) { changeCount[1] += 1; payBack -= CashRegister.twoPence; }
+                while (payBack >= CashRegister.onePence) { changeCount[0] += 1; payBack -= CashRegister.onePence; }
+                Console.WriteLine(payBack);
+                changeCount.ForEach(Console.WriteLine);
+                return changeCount;
+            }
+
+
+
+
+
+
         }
 
 
