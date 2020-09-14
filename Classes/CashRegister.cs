@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace currencyAppTwo.Classes {
-public class CashRegister
+namespace currencyAppTwo.Classes
+{
+    public class CashRegister
     {
-
         static decimal onePence = 0.01m;
         static decimal twoPence = 0.02m;
         static decimal fivePence = 0.05m;
@@ -18,13 +18,29 @@ public class CashRegister
         static byte twentyPound = 20;
         public dynamic TotalOrderAmount(decimal total, decimal customerPayment, Customer customer)
         {
-            if (total > customerPayment)
+            if (customer.Money < 1.25m)
             {
                 Console.Error.Write("you need to pay more!");
-                return "rerun";
+                return 1;
+            }
+            else if (total > customerPayment)
+            {
+                Console.Error.Write("You are too poor for my store please leave!");
+                return 2;
+            }
+            else if (customer.Money < customerPayment)
+            {
+                Console.Error.Write("You dont have that amount!");
+                return 1;
             }
             else
             {
+
+                if (customer.Money < total)
+                {
+                    Console.Error.Write("you need to pay more!");
+                    return 1;
+                }
                 decimal payBack = customerPayment - total;
                 customer.Money -= total;
                 List<byte> change = this.Change(payBack);
@@ -38,7 +54,7 @@ public class CashRegister
         private List<byte> Change(decimal payBack)
         {
 
-            
+
             var changeCount = new List<byte>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             while (true)
             {

@@ -15,7 +15,12 @@ namespace currencyAppTwo
 
         static string addBasketMenu(Customer customer)
         {
+            Console.Clear();
             Basket basket = new Basket();
+            Console.WriteLine($"You currently have £{customer.Money}");
+            Console.WriteLine("Welcome to my store what would you like to buy?");
+            Console.WriteLine($"Your basket total £{basket.Total}");
+
             List<string> consoleMenu = new List<string>() { "Cheese", "Milk", "Newspaper", "Bread", "Pay" };
             Console.CursorVisible = false;
             var index = 0;
@@ -35,7 +40,6 @@ namespace currencyAppTwo
                     }
                     Console.ResetColor();
                 }
-
                 ConsoleKeyInfo ckey = Console.ReadKey();
                 Console.Clear();
                 Console.WriteLine($"You currently have £{customer.Money}");
@@ -85,8 +89,13 @@ namespace currencyAppTwo
                     if (choosenItem == "Pay")
                     {
                         var changeAmount = Program.CustomerPayMenu(basket, customer);
+                        if(changeAmount == null) {
+                            Console.WriteLine("12345");
+                            Console.Clear();
+                            return null;
+                        }
                         basket.Total = 0;
-                        var result = Program.payAgainMenu(changeAmount,customer);
+                        var result = Program.payAgainMenu(changeAmount, customer);
                         if (result == "no")
                         {
                             return "no";
@@ -97,11 +106,11 @@ namespace currencyAppTwo
                         }
                     }
                 }
-                Console.WriteLine($"Your basket total {basket.Total}");
+                Console.WriteLine($"Your basket total £{basket.Total}");
             }
         }
 
-        static List<byte> CustomerPayMenu(Basket basket, Customer customer)
+        static dynamic CustomerPayMenu(Basket basket, Customer customer)
         {
             Console.Clear();
             Console.WriteLine("What would you like to pay with?");
@@ -156,18 +165,22 @@ namespace currencyAppTwo
                     Console.WriteLine(customerPayment);
                     var till = new CashRegister();
                     var changeAmount = till.TotalOrderAmount(basket.Total, customerPayment, customer);
-                    if(changeAmount.GetType() == typeof(List<byte>)) {
-                    return changeAmount;
+                    if (changeAmount.GetType() == typeof(List<byte>))
+                    {
+                        return changeAmount;
                     }
-                    else {
-                    
-                    Program.addBasketMenu(customer);
+                    else if(changeAmount == 1)
+                    {
+                        Program.addBasketMenu(customer);
+                    }
+                    else if(changeAmount == 2) {
+                        return null;
                     }
                 }
             }
         }
 
-        static string payAgainMenu(List<byte> changeAmount,Customer customer)
+        static string payAgainMenu(List<byte> changeAmount, Customer customer)
         {
             Console.Clear();
             Console.WriteLine("Would you like to shop again?");
@@ -201,7 +214,6 @@ namespace currencyAppTwo
                 ConsoleKeyInfo ckey = Console.ReadKey();
                 Console.Clear();
                 Console.WriteLine("Would you like to shop again?");
-
                 if (ckey.Key == ConsoleKey.DownArrow)
                 {
                     if (index == consoleMenu.Count - 1)
@@ -223,12 +235,9 @@ namespace currencyAppTwo
                     {
                         index--;
                     }
-
-
                 }
                 else if (ckey.Key == ConsoleKey.Enter)
                 {
-
                     if (consoleMenu[index] == "no")
                     {
                         return "no";
@@ -237,14 +246,8 @@ namespace currencyAppTwo
                     {
                         Program.addBasketMenu(customer);
                     }
-
                 }
-
             }
-
-
         }
-
     }
-
 }
